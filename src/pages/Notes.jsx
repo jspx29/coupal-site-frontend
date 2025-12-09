@@ -14,7 +14,7 @@ import { CSS } from '@dnd-kit/utilities';
 import axios from 'axios';
 import { Plus, Trash2, Edit2, X, Check, Menu } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api/items';
+const API_URL = import.meta.env.VITE_REACT_APP_API_URL + '/api/items';
 
 function DroppableContainer({ id, children, title, count, color }) {
   const { setNodeRef, isOver } = useDroppable({ id });
