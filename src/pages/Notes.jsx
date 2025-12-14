@@ -14,7 +14,9 @@ import { CSS } from '@dnd-kit/utilities';
 import axios from 'axios';
 import { Plus, Trash2, Edit2, X, Check, Menu } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_REACT_APP_API_URL + '/api/items';
+const API_URL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/items`
+  : 'http://localhost:5000/api/items';
 
 function DroppableContainer({ id, children, title, count, color }) {
   const { setNodeRef, isOver } = useDroppable({ id });
@@ -232,10 +234,11 @@ export default function Notes() {
     setActiveId(null);
   };
 
-  const todoItems = items.filter(
+  const safeItems = Array.isArray(items) ? items : [];
+  const todoItems = safeItems.filter(
     (item) => item.category === activeCategory && item.status === 'todo'
   );
-  const doneItems = items.filter(
+  const doneItems = safeItems.filter(
     (item) => item.category === activeCategory && item.status === 'done'
   );
 
@@ -388,11 +391,13 @@ export default function Notes() {
             </div>
 
             <DragOverlay>
-              {activeId ? (
+              {activeId && items && Array.isArray(items) ? (
                 <div className="bg-white rounded-lg shadow-xl p-4 border-l-4 border-purple-600">
+                  {' '}
                   <p className="text-gray-800">
-                    {items.find((item) => item._id === activeId)?.title}
-                  </p>
+                    {' '}
+                    {items.find((item) => item._id === activeId)?.title}{' '}
+                  </p>{' '}
                 </div>
               ) : null}
             </DragOverlay>
