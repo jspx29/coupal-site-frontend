@@ -1,29 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import HeroImage from '../assets/home_us.jpg';
-import KuromiImg from '../assets/kuromi-bg.png';
-import KuromiIm2 from '../assets/kuromi-bg-2.png';
+import cat_bg_1 from '../assets/cat-bg-1.png';
+import cat_bg_2 from '../assets/cat-bg-2.png';
 
 export default function Landing() {
   return (
     <section className="relative min-h-screen overflow-x-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100 flex items-center">
       <img
-        src={KuromiImg}
+        src={cat_bg_1}
         className="hidden lg:block fixed top-24 left-10 w-20 h-20 lg:w-24 lg:h-24 opacity-40 pointer-events-none"
         alt=""
       />
       <img
-        src={KuromiIm2}
+        src={cat_bg_2}
         className="hidden lg:block fixed top-1/2 right-10 w-14 h-14 lg:w-16 lg:h-16 opacity-40 pointer-events-none"
         alt=""
       />
       <img
-        src={KuromiImg}
+        src={cat_bg_1}
         className="hidden lg:block fixed bottom-1/3 left-20 w-14 h-14 lg:w-16 lg:h-16 opacity-30 pointer-events-none"
         alt=""
       />
       <img
-        src={KuromiIm2}
+        src={cat_bg_2}
         className="hidden lg:block fixed bottom-10 right-24 w-20 h-20 lg:w-24 lg:h-24 opacity-40 pointer-events-none"
         alt=""
       />
@@ -41,8 +41,7 @@ export default function Landing() {
           </h3>
 
           <p className="text-purple-900 text-sm sm:text-base leading-relaxed max-w-md opacity-90 mx-auto lg:mx-0">
-            A collection of our favorite moments, inside jokes, and memories
-            together.
+            A collection of our favorite moments, notes, letter, and love.
           </p>
 
           <Link

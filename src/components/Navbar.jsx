@@ -1,105 +1,153 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import kuromi_nav from '../assets/kuromi-nav.png';
+import { useState, useEffect, useRef } from 'react';
+import { Menu, X, LogOut, ChevronDown } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import cat_nav from '../assets/cat-nav.png';
 
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Notes', href: '/notes' },
-  { name: 'Ano to?', href: '/anniversary' },
+  { name: 'Tracker', href: '/tracker' },
+  {
+    name: 'Occasions',
+    isDropdown: true,
+    items: [
+      { name: 'Anniversary', href: '/anniversary' },
+      { name: 'New Year', href: '/newyear' },
+    ],
+  },
   { name: 'About Us', href: '/about' },
 ];
 
 export default function Navbar() {
   const location = useLocation();
-  const [isAnniversaryShining, setIsAnniversaryShining] = useState(true);
+  const { logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
+  // Close desktop dropdown when clicking outside
   useEffect(() => {
-    setIsAnniversaryShining(true);
-  }, []);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDesktopDropdownOpen(false);
+      }
+    };
 
-  const handleAnniversaryClick = () => {
-    setIsAnniversaryShining(false);
-    setIsMobileMenuOpen(false);
-  };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleNavClick = () => {
     setIsMobileMenuOpen(false);
+    setMobileDropdownOpen(false);
+  };
+
+  const isOccasionActive = () => {
+    const occasionsItem = navigation.find((item) => item.isDropdown);
+    return occasionsItem?.items.some((item) => location.pathname === item.href);
   };
 
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-purple-100 via-pink-50 to-indigo-100 shadow-md">
-      <div className="hidden md:flex justify-center py-4">
-        <ul className="flex space-x-2 lg:space-x-4 bg-white/40 backdrop-blur-sm px-4 lg:px-6 py-3 rounded-full shadow-lg shadow-pink-200/50">
-          {navigation.map((item) => (
-            <li key={item.name} className="relative">
-              <Link
-                to={item.href}
-                onClick={
-                  item.name === 'Ano to?' ? handleAnniversaryClick : undefined
-                }
-                className={`px-3 lg:px-4 py-2 rounded-full font-medium transition-all duration-200 relative inline-block text-sm lg:text-base ${
-                  location.pathname === item.href
-                    ? 'bg-pink-200 text-purple-800 shadow-inner'
-                    : 'text-purple-700 hover:bg-pink-100 hover:text-purple-900'
-                } ${
-                  item.name === 'Ano to?' && isAnniversaryShining
-                    ? 'bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white shadow-lg animate-pulse'
-                    : ''
-                }`}
-              >
-                {item.name}
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex items-center justify-between px-6 lg:px-12 py-4">
+        {/* Left Side: Brand/Logo */}
+        <div className="flex items-center w-1/4">
+          <img
+            src={cat_nav}
+            alt="Cat Icon"
+            className="w-[62px] h-[62px] mr-2"
+          />
+          <h1 className="text-xl font-bold text-purple-900">Notes App</h1>
+        </div>
 
-                {item.name === 'Ano to?' && isAnniversaryShining && (
+        {/* Center: Navigation Links */}
+        <div className="flex justify-center flex-1">
+          <ul className="flex space-x-2 lg:space-x-4 bg-white/40 backdrop-blur-sm px-4 lg:px-6 py-3 rounded-full shadow-lg shadow-pink-200/50 border border-white/20">
+            {navigation.map((item) => (
+              <li
+                key={item.name}
+                className="relative"
+                ref={item.isDropdown ? dropdownRef : null}
+              >
+                {item.isDropdown ? (
                   <>
-                    <span className="absolute -top-1 -left-1 text-yellow-400 animate-ping">
-                      ✨
-                    </span>
-                    <span
-                      className="absolute -top-1 -right-1 text-pink-400 animate-bounce"
-                      style={{ animationDelay: '0.2s' }}
+                    <button
+                      onClick={() =>
+                        setDesktopDropdownOpen(!desktopDropdownOpen)
+                      }
+                      className={`px-3 lg:px-4 py-2 rounded-full font-medium transition-all duration-200 text-sm lg:text-base flex items-center gap-1 ${
+                        isOccasionActive()
+                          ? 'bg-pink-200 text-purple-800 shadow-inner'
+                          : 'text-purple-700 hover:bg-pink-100 hover:text-purple-900'
+                      }`}
                     >
-                      🎉
-                    </span>
-                    <span
-                      className="absolute -bottom-1 -left-1 text-purple-400 animate-bounce"
-                      style={{ animationDelay: '0.4s' }}
-                    >
-                      💕
-                    </span>
-                    <span
-                      className="absolute -bottom-1 -right-1 text-pink-300 animate-ping"
-                      style={{ animationDelay: '0.3s' }}
-                    >
-                      ⭐
-                    </span>
-                    <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 text-purple-400 text-xs animate-bounce">
-                      🎊
-                    </span>
-                    <span
-                      className="absolute bottom-0 left-1/4 translate-y-3 text-pink-400 text-xs animate-pulse"
-                      style={{ animationDelay: '0.5s' }}
-                    >
-                      💖
-                    </span>
+                      {item.name}
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-200 ${
+                          desktopDropdownOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {/* Desktop Dropdown Menu */}
+                    {desktopDropdownOpen && (
+                      <div className="absolute top-full mt-2 left-0 bg-white rounded-lg shadow-xl border border-purple-100 py-2 min-w-[160px] z-50">
+                        {item.items.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            to={subItem.href}
+                            onClick={() => setDesktopDropdownOpen(false)}
+                            className={`block px-4 py-2 text-sm transition-colors ${
+                              location.pathname === subItem.href
+                                ? 'bg-pink-100 text-purple-800 font-semibold'
+                                : 'text-purple-700 hover:bg-purple-50'
+                            }`}
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className={`px-3 lg:px-4 py-2 rounded-full font-medium transition-all duration-200 relative inline-block text-sm lg:text-base ${
+                      location.pathname === item.href
+                        ? 'bg-pink-200 text-purple-800 shadow-inner'
+                        : 'text-purple-700 hover:bg-pink-100 hover:text-purple-900'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
                 )}
-              </Link>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Right Side: Logout Button */}
+        <div className="flex justify-end w-1/4">
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-purple-700 bg-white/40 hover:bg-red-100 hover:text-red-600 rounded-full transition-all duration-300 border border-white/20 shadow-sm"
+          >
+            <LogOut size={16} />
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
 
+      {/* Mobile Navigation */}
       <div className="md:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center">
-            <img
-              src={kuromi_nav}
-              alt="CouPal Icon"
-              className="w-12 h-12 mr-2"
-            />
-            <h1 className="text-lg font-bold text-purple-900">Coupal App</h1>
+            <img src={cat_nav} alt="Cat Icon" className="w-12 h-12 mr-2" />
+            <h1 className="text-lg font-bold text-purple-900">Notes App</h1>
           </div>
 
           <button
@@ -111,55 +159,83 @@ export default function Navbar() {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg border-t border-purple-100">
+          <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg border-t border-purple-100 transition-all duration-300 ease-in-out">
             <ul className="py-2">
               {navigation.map((item) => (
-                <li key={item.name} className="relative">
-                  <Link
-                    to={item.href}
-                    onClick={
-                      item.name === 'Ano to?'
-                        ? handleAnniversaryClick
-                        : handleNavClick
-                    }
-                    className={`block px-6 py-3 font-medium transition-all duration-200 ${
-                      location.pathname === item.href
-                        ? 'bg-pink-200 text-purple-800'
-                        : 'text-purple-700 hover:bg-pink-50'
-                    } ${
-                      item.name === 'Ano to?' && isAnniversaryShining
-                        ? 'bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white'
-                        : ''
-                    }`}
-                  >
-                    <span className="flex items-center justify-between">
-                      {item.name}
-                      {item.name === 'Ano to?' && isAnniversaryShining && (
-                        <span className="flex gap-1">
-                          <span className="animate-bounce">🎉</span>
-                          <span className="animate-pulse">💕</span>
-                        </span>
+                <li key={item.name}>
+                  {item.isDropdown ? (
+                    <>
+                      <button
+                        onClick={() =>
+                          setMobileDropdownOpen(!mobileDropdownOpen)
+                        }
+                        className={`w-full flex items-center justify-between px-6 py-3 font-medium transition-all duration-200 text-sm ${
+                          isOccasionActive()
+                            ? 'bg-pink-200 text-purple-800'
+                            : 'text-purple-700 hover:bg-pink-50'
+                        }`}
+                      >
+                        <span>{item.name}</span>
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform duration-200 ${
+                            mobileDropdownOpen ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {/* Mobile Dropdown Items */}
+                      {mobileDropdownOpen && (
+                        <div className="bg-purple-50/50">
+                          {item.items.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              to={subItem.href}
+                              onClick={handleNavClick}
+                              className={`block pl-12 pr-6 py-2.5 text-sm transition-colors ${
+                                location.pathname === subItem.href
+                                  ? 'bg-pink-100 text-purple-800 font-semibold'
+                                  : 'text-purple-600 hover:bg-pink-50'
+                              }`}
+                            >
+                              {subItem.name}
+                            </Link>
+                          ))}
+                        </div>
                       )}
-                    </span>
-                  </Link>
+                    </>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      onClick={handleNavClick}
+                      className={`block px-6 py-3 font-medium transition-all duration-200 text-sm ${
+                        location.pathname === item.href
+                          ? 'bg-pink-200 text-purple-800'
+                          : 'text-purple-700 hover:bg-pink-50'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
                 </li>
               ))}
+
+              <li className="mt-1 border-t border-purple-50">
+                <button
+                  onClick={() => {
+                    handleNavClick();
+                    logout();
+                  }}
+                  className="w-full flex items-center justify-between px-6 py-3 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors"
+                >
+                  Logout
+                  <LogOut size={16} />
+                </button>
+              </li>
             </ul>
           </div>
         )}
       </div>
-
-      <style jsx>{`
-        @keyframes shine {
-          0%,
-          100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-      `}</style>
     </nav>
   );
 }

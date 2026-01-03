@@ -16,8 +16,8 @@ import rd_4 from '../assets/rd-4.jpg';
 import rd_5 from '../assets/rd-5.jpg';
 import rd_6 from '../assets/rd-6.jpg';
 
-import KuromiImg from '../assets/kuromi-bg.png';
-import KuromiIm2 from '../assets/kuromi-bg-2.png';
+import cat_bg_1 from '../assets/cat-bg-1.png';
+import cat_bg_2 from '../assets/cat-bg-2.png';
 
 export default function Anniversary() {
   const anniversaryDate = new Date('2024-12-10');
@@ -178,22 +178,22 @@ export default function Anniversary() {
       )}
 
       <img
-        src={KuromiImg}
+        src={cat_bg_1}
         className="fixed top-20 left-4 w-12 h-12 lg:w-24 lg:h-24 opacity-40 pointer-events-none" // Smaller on mobile
         alt=""
       />
       <img
-        src={KuromiIm2}
+        src={cat_bg_2}
         className="fixed top-1/2 right-4 w-10 h-10 lg:w-16 lg:h-16 opacity-40 pointer-events-none" // Smaller on mobile
         alt=""
       />
       <img
-        src={KuromiImg}
+        src={cat_bg_1}
         className="fixed bottom-1/3 left-4 w-10 h-10 lg:w-16 lg:h-16 opacity-30 pointer-events-none" // Smaller on mobile
         alt=""
       />
       <img
-        src={KuromiIm2}
+        src={cat_bg_2}
         className="fixed bottom-10 right-4 w-12 h-12 lg:w-24 lg:h-24 opacity-40 pointer-events-none" // Smaller on mobile
         alt=""
       />

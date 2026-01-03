@@ -12,7 +12,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import axios from 'axios';
-import { Plus, Trash2, Edit2, X, Check, Menu } from 'lucide-react';
+import { Plus, Trash2, Edit2, X, Check } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL
   ? `${import.meta.env.VITE_API_URL}/api/items`
@@ -137,7 +137,6 @@ export default function Notes() {
   const [activeCategory, setActiveCategory] = useState('movies');
   const [newItemTitle, setNewItemTitle] = useState('');
   const [activeId, setActiveId] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const categories = [
     { id: 'movies', label: 'Movies', icon: '🎬' },
@@ -244,42 +243,15 @@ export default function Notes() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100">
-      <div className="lg:hidden flex justify-between items-center p-4 bg-white shadow-md sticky top-0 z-10">
-        <h1 className="text-xl font-bold text-purple-900">Select List</h1>
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="p-2 text-purple-600 hover:bg-purple-50 rounded"
-        >
-          <Menu size={24} />
-        </button>
-      </div>
-
       <div className="lg:flex">
-        <div
-          className={`
-            w-64 min-h-screen bg-white shadow-lg p-6
-            fixed top-0 left-0 z-20 transition-transform transform
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-            lg:relative lg:translate-x-0 lg:min-h-full
-          `}
-        >
-          <div className="flex justify-end lg:hidden mb-4">
-            <button
-              onClick={() => setIsSidebarOpen(false)}
-              className="p-1 text-gray-600 hover:bg-gray-100 rounded"
-            >
-              <X size={24} />
-            </button>
-          </div>
-          <h2 className="text-2xl font-bold text-purple-900 mb-6">Our Lists</h2>
+        {/* Desktop Sidebar - Hidden on Mobile */}
+        <div className="hidden lg:block w-64 min-h-screen bg-white shadow-lg p-6">
+          <h2 className="text-2xl font-bold text-purple-900 mb-6">Lists</h2>
           <div className="space-y-2">
             {categories.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => {
-                  setActiveCategory(cat.id);
-                  setIsSidebarOpen(false);
-                }}
+                onClick={() => setActiveCategory(cat.id)}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 flex items-center gap-3 ${
                   activeCategory === cat.id
                     ? 'bg-purple-600 text-white shadow-md'
@@ -293,10 +265,9 @@ export default function Notes() {
           </div>
         </div>
 
-        <div className="flex-1 p-4 lg:p-8">
-          {' '}
+        {/* Main Content */}
+        <div className="flex-1 p-4 lg:p-8 pb-24 lg:pb-8">
           <div className="bg-white rounded-xl shadow-lg p-4 mb-6 sm:p-6">
-            {' '}
             <h3 className="text-xl font-bold text-purple-900 mb-4">
               Add New {categories.find((c) => c.id === activeCategory)?.label}
             </h3>
@@ -304,7 +275,6 @@ export default function Notes() {
               onSubmit={handleAddItem}
               className="flex flex-col sm:flex-row gap-3"
             >
-              {' '}
               <input
                 type="text"
                 value={newItemTitle}
@@ -317,17 +287,17 @@ export default function Notes() {
                 className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
               >
                 <Plus size={20} />
-                <span className="hidden sm:inline">Add</span>{' '}
+                <span className="hidden sm:inline">Add</span>
               </button>
             </form>
           </div>
+
           <DndContext
             collisionDetection={closestCenter}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           >
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              {' '}
               <DroppableContainer
                 id="todo-container"
                 title="📝 To Do"
@@ -335,7 +305,6 @@ export default function Notes() {
                 color="text-purple-900"
               >
                 <div className="max-h-[50vh] lg:max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-purple-50">
-                  {' '}
                   <SortableContext
                     items={todoItems.map((item) => item._id)}
                     strategy={verticalListSortingStrategy}
@@ -358,6 +327,7 @@ export default function Notes() {
                   </SortableContext>
                 </div>
               </DroppableContainer>
+
               <DroppableContainer
                 id="done-container"
                 title="✅ Done"
@@ -365,7 +335,6 @@ export default function Notes() {
                 color="text-green-600"
               >
                 <div className="max-h-[50vh] lg:max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-green-300 scrollbar-track-green-50">
-                  {' '}
                   <SortableContext
                     items={doneItems.map((item) => item._id)}
                     strategy={verticalListSortingStrategy}
@@ -393,24 +362,45 @@ export default function Notes() {
             <DragOverlay>
               {activeId && items && Array.isArray(items) ? (
                 <div className="bg-white rounded-lg shadow-xl p-4 border-l-4 border-purple-600">
-                  {' '}
                   <p className="text-gray-800">
-                    {' '}
-                    {items.find((item) => item._id === activeId)?.title}{' '}
-                  </p>{' '}
+                    {items.find((item) => item._id === activeId)?.title}
+                  </p>
                 </div>
               ) : null}
             </DragOverlay>
           </DndContext>
         </div>
-
-        {isSidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
-            onClick={() => setIsSidebarOpen(false)}
-          />
-        )}
       </div>
+
+      {/* Mobile Bottom Navigation - Hidden on Desktop */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-purple-200 shadow-lg z-50">
+        <div className="flex items-center justify-around h-16">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`flex flex-col items-center justify-center gap-1 px-4 py-2 flex-1 transition-all duration-200 relative ${
+                  isActive ? 'text-purple-600' : 'text-gray-500'
+                }`}
+              >
+                <span className="text-2xl">{cat.icon}</span>
+                <span
+                  className={`text-xs font-medium ${
+                    isActive ? 'font-semibold' : ''
+                  }`}
+                >
+                  {cat.label}
+                </span>
+                {isActive && (
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-purple-600 rounded-b-full" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }

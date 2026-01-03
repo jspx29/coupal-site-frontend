@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Trash2, Heart } from 'lucide-react';
-import KuromiImg from '../assets/kuromi-bg.png';
-import KuromiIm2 from '../assets/kuromi-bg-2.png';
+import cat_bg_1 from '../assets/cat-bg-1.png';
+import cat_bg_2 from '../assets/cat-bg-2.png';
 
 export default function About() {
   const [messages, setMessages] = useState([
@@ -157,22 +157,22 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100 flex items-center justify-center p-6">
       <img
-        src={KuromiImg}
+        src={cat_bg_1}
         className="fixed top-24 left-10 w-20 h-20 lg:w-24 lg:h-24 opacity-40 pointer-events-none"
         alt=""
       />
       <img
-        src={KuromiIm2}
+        src={cat_bg_2}
         className="fixed top-1/2 right-10 w-14 h-14 lg:w-16 lg:h-16 opacity-40 pointer-events-none"
         alt=""
       />
       <img
-        src={KuromiImg}
+        src={cat_bg_1}
         className="fixed bottom-1/3 left-20 w-14 h-14 lg:w-16 lg:h-16 opacity-30 pointer-events-none"
         alt=""
       />
       <img
-        src={KuromiIm2}
+        src={cat_bg_2}
         className="fixed bottom-10 right-24 w-20 h-20 lg:w-24 lg:h-24 opacity-40 pointer-events-none"
         alt=""
       />
