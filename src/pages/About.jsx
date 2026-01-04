@@ -22,7 +22,7 @@ export default function About() {
     const input = userInput.toLowerCase().trim();
 
     if (/^(hi|hello|hey|sup|yo|hola)/.test(input)) {
-      return 'Hello love! 💕 What would you like to know about your special relationship?';
+      return 'Hello babe! 💕 What would you like to know about your special relationship?';
     }
 
     if (/anniversary|when.*start|when.*together|date.*start/.test(input)) {
@@ -58,7 +58,7 @@ export default function About() {
     }
 
     if (/how are you|how.*doing|what.*up/.test(input)) {
-      return "I'm doing great! 😊 But more importantly, how are YOU doing, love? I'm here if you want to know anything about your relationship!";
+      return "I'm doing great! 😊 But more importantly, how are YOU doing, babe? I'm here if you want to know anything about your relationship!";
     }
 
     if (/notes|list|todo|movies|places|things/.test(input)) {
