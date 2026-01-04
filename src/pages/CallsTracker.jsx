@@ -37,11 +37,17 @@ export default function CallsTracker() {
 
   const handleDateClick = (day) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
+    // Set to noon to avoid timezone issues
+    clickedDate.setHours(12, 0, 0, 0);
     setSelectedDate(clickedDate);
 
-    const existingCall = calls.find(
-      (c) => new Date(c.date).toDateString() === clickedDate.toDateString()
-    );
+    const existingCall = calls.find((c) => {
+      const callDate = new Date(c.date);
+      callDate.setHours(0, 0, 0, 0);
+      const compareDate = new Date(currentYear, currentMonth, day);
+      compareDate.setHours(0, 0, 0, 0);
+      return callDate.getTime() === compareDate.getTime();
+    });
 
     if (existingCall) {
       setFormData({
@@ -77,9 +83,12 @@ export default function CallsTracker() {
 
   const getCallForDate = (day) => {
     const date = new Date(currentYear, currentMonth, day);
-    return calls.find(
-      (c) => new Date(c.date).toDateString() === date.toDateString()
-    );
+    date.setHours(0, 0, 0, 0);
+    return calls.find((c) => {
+      const callDate = new Date(c.date);
+      callDate.setHours(0, 0, 0, 0);
+      return callDate.getTime() === date.getTime();
+    });
   };
 
   const getDaysInMonth = () => {

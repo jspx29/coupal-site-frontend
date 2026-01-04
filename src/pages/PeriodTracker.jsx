@@ -133,12 +133,12 @@ export default function PeriodTracker() {
 
   const isPeriodDay = (day) => {
     const date = new Date(currentYear, currentMonth, day);
+    date.setHours(12, 0, 0, 0);
     return periods.find((period) => {
       const start = new Date(period.startDate);
       const end = period.endDate ? new Date(period.endDate) : new Date();
       start.setHours(0, 0, 0, 0);
       end.setHours(23, 59, 59, 999);
-      date.setHours(12, 0, 0, 0);
       return date >= start && date <= end;
     });
   };

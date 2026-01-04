@@ -45,11 +45,17 @@ export default function MovieTracker() {
 
   const handleDateClick = (day) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
+    // Set to noon to avoid timezone issues
+    clickedDate.setHours(12, 0, 0, 0);
     setSelectedDate(clickedDate);
 
-    const existingMovie = movies.find(
-      (m) => new Date(m.date).toDateString() === clickedDate.toDateString()
-    );
+    const existingMovie = movies.find((m) => {
+      const movieDate = new Date(m.date);
+      movieDate.setHours(0, 0, 0, 0);
+      const compareDate = new Date(currentYear, currentMonth, day);
+      compareDate.setHours(0, 0, 0, 0);
+      return movieDate.getTime() === compareDate.getTime();
+    });
 
     if (existingMovie) {
       setFormData({
@@ -86,9 +92,12 @@ export default function MovieTracker() {
 
   const getMovieForDate = (day) => {
     const date = new Date(currentYear, currentMonth, day);
-    return movies.find(
-      (m) => new Date(m.date).toDateString() === date.toDateString()
-    );
+    date.setHours(0, 0, 0, 0);
+    return movies.find((m) => {
+      const movieDate = new Date(m.date);
+      movieDate.setHours(0, 0, 0, 0);
+      return movieDate.getTime() === date.getTime();
+    });
   };
 
   const getDaysInMonth = () => {
