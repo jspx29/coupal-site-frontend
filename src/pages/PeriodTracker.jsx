@@ -262,7 +262,6 @@ export default function PeriodTracker() {
   return (
     <div className="p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-4 sm:mb-6 md:mb-8">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
             <Heart className="text-pink-600" size={32} />
@@ -275,7 +274,6 @@ export default function PeriodTracker() {
           </p>
         </div>
 
-        {/* Current Phase Card */}
         <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 mb-4 sm:mb-6">
           <div className="flex items-start sm:items-center gap-3 sm:gap-4">
             <PhaseIcon
@@ -296,7 +294,6 @@ export default function PeriodTracker() {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6 md:mb-8">
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-5 md:p-6 border-l-4 border-pink-500">
             <div className="flex items-center gap-2 sm:gap-3 mb-2">
@@ -371,7 +368,6 @@ export default function PeriodTracker() {
           </div>
         </div>
 
-        {/* Gentle Insight */}
         {stats?.cycleRegularity === 'irregular' && (
           <div className="bg-blue-50 border-l-4 border-blue-400 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6">
             <p className="text-xs sm:text-sm text-blue-800">
@@ -382,7 +378,6 @@ export default function PeriodTracker() {
           </div>
         )}
 
-        {/* Calendar */}
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-4 md:p-6 mb-4 sm:mb-6">
           <div className="flex items-center justify-between mb-4 sm:mb-6">
             <button
@@ -459,7 +454,6 @@ export default function PeriodTracker() {
             })}
           </div>
 
-          {/* Month Insight */}
           <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-purple-50 rounded-lg">
             <p className="text-xs sm:text-sm text-gray-700">
               <strong>This month:</strong> {getMonthInsight()}
@@ -467,7 +461,6 @@ export default function PeriodTracker() {
           </div>
         </div>
 
-        {/* Log Period Button */}
         <div className="flex justify-center mb-4 sm:mb-6">
           <button
             onClick={() => {
@@ -487,7 +480,6 @@ export default function PeriodTracker() {
           </button>
         </div>
 
-        {/* Period History */}
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6">
           <h3 className="text-xl sm:text-2xl font-bold text-purple-900 mb-3 sm:mb-4">
             Period History
@@ -544,7 +536,6 @@ export default function PeriodTracker() {
         </div>
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
           <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full p-4 sm:p-6 max-h-[90vh] overflow-y-auto">

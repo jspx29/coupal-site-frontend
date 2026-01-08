@@ -177,7 +177,11 @@ export default function About() {
         alt=""
       />
 
-      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+      <div
+        className="w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden relative z-10"
+        style={{ backgroundColor: '#ffffff', opacity: 1 }}
+      >
+        <div className="absolute inset-0 bg-white -z-10"></div>
         <div className="bg-gradient-to-r from-purple-600 to-purple-800 p-6 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -203,7 +207,8 @@ export default function About() {
 
         <div
           ref={chatBodyRef}
-          className="h-96 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-purple-50/30 to-pink-50/30"
+          className="h-96 overflow-y-auto p-6 space-y-4 bg-white relative"
+          style={{ backgroundColor: '#ffffff' }}
         >
           {messages.map((message, index) => (
             <div

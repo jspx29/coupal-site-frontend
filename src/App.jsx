@@ -8,6 +8,7 @@ import Anniversary from './pages/Anniversary';
 import About from './pages/About';
 import NewYearLetter from './pages/NewYearLetter';
 import Tracker from './pages/Tracker';
+import GymTracker from './pages/GymTracker';
 
 function AppContent() {
   const { isAuthenticated, isLoading, login } = useAuth();
@@ -32,6 +33,7 @@ function AppContent() {
         <Route path="/anniversary" element={<Anniversary />} />
         <Route path="/about" element={<About />} />
         <Route path="/newyear" element={<NewYearLetter />} />
+        <Route path="/gym" element={<GymTracker />} />
       </Routes>
     </>
   );

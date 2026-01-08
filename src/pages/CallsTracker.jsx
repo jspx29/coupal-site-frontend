@@ -37,7 +37,7 @@ export default function CallsTracker() {
 
   const handleDateClick = (day) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
-    // Set to noon to avoid timezone issues
+
     clickedDate.setHours(12, 0, 0, 0);
     setSelectedDate(clickedDate);
 
@@ -151,7 +151,6 @@ export default function CallsTracker() {
   return (
     <div className="p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-4 sm:mb-6 md:mb-8">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
             <Phone className="text-purple-600" size={32} />

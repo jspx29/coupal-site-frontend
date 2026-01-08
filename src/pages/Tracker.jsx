@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MovieTracker from './MovieTracker';
 import CallsTracker from './CallsTracker';
 import PeriodTracker from './PeriodTracker';
+import GymTracker from './GymTracker';
 
 export default function Tracker() {
   const [activeTracker, setActiveTracker] = useState('movies');
@@ -10,12 +11,12 @@ export default function Tracker() {
     { id: 'movies', name: 'Movie Nights', shortName: 'Movies', icon: '🎬' },
     { id: 'calls', name: 'Night Calls', shortName: 'Calls', icon: '📞' },
     { id: 'period', name: 'Monthly Period', shortName: 'Period', icon: '💜' },
+    { id: 'gym', name: 'Gym Progress', shortName: 'Gym', icon: '🏋️‍♂️' },
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100">
       <div className="lg:flex">
-        {/* Desktop Sidebar - Hidden on Mobile */}
         <div className="hidden lg:block w-64 min-h-screen bg-white shadow-lg p-6">
           <h2 className="text-2xl font-bold text-purple-900 mb-6">Trackers</h2>
           <div className="space-y-2">
@@ -30,7 +31,9 @@ export default function Tracker() {
                       : 'bg-purple-50 text-purple-800 hover:bg-purple-100'
                   }`}
                 >
-                  <span className="text-2xl">{tracker.icon}</span>
+                  <span className="text-2xl flex items-center justify-center">
+                    {tracker.icon}
+                  </span>
                   <span className="font-medium">{tracker.name}</span>
                 </button>
               );
@@ -38,15 +41,14 @@ export default function Tracker() {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="flex-1 pb-20 lg:pb-0">
           {activeTracker === 'movies' && <MovieTracker />}
           {activeTracker === 'calls' && <CallsTracker />}
           {activeTracker === 'period' && <PeriodTracker />}
+          {activeTracker === 'gym' && <GymTracker />}{' '}
         </div>
       </div>
 
-      {/* Mobile Bottom Navigation - Hidden on Desktop */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-purple-200 shadow-lg z-50">
         <div className="flex items-center justify-around h-16">
           {trackers.map((tracker) => {

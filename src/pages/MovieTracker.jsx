@@ -45,7 +45,7 @@ export default function MovieTracker() {
 
   const handleDateClick = (day) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
-    // Set to noon to avoid timezone issues
+
     clickedDate.setHours(12, 0, 0, 0);
     setSelectedDate(clickedDate);
 
@@ -144,7 +144,6 @@ export default function MovieTracker() {
   return (
     <div className="p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-4 sm:mb-6 md:mb-8">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
             <Film className="text-purple-600" size={32} />
@@ -157,7 +156,6 @@ export default function MovieTracker() {
           </p>
         </div>
 
-        {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6 md:mb-8">
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-5 md:p-6 border-l-4 border-purple-500">
             <div className="flex items-center gap-2 sm:gap-3 mb-2">
@@ -212,7 +210,6 @@ export default function MovieTracker() {
           </div>
         </div>
 
-        {/* Calendar */}
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-4 md:p-6">
           <div className="flex items-center justify-between mb-4 sm:mb-6">
             <button
@@ -324,7 +321,6 @@ export default function MovieTracker() {
         </div>
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
           <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
